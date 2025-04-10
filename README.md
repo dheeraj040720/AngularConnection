@@ -1,59 +1,167 @@
-# AngularConnection
+## Connecting spring rest api and angular
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.6.
+Angular project creation
 
-## Development server
+in cmd inside angular project folder 
 
-To start a local development server, run:
-
-```bash
-ng serve
+```tsx
+>ng new angularConnection --no-standalone --routing --ssr=false;
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+first we need to create a model class in frontend
 
-## Code scaffolding
+model class is used to create objects
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+create a model folder inside src or app compenent
 
-```bash
-ng generate component component-name
+inside folder create a ts file 
+
+properties should be same as backend
+
+copy properties from model class of spring project  model class —backend
+
+creation of objects inside model folder
+
+```tsx
+export class student{
+
+    studentId:number|null;
+    sName:string;
+    sMarks:number;
+
+    constructor()
+    {
+        this.studentId=null;
+        this.sName=""; 
+        this.sMarks=0;
+    }
+}
+
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+output
 
-```bash
-ng generate --help
+```tsx
+ng serve 
 ```
 
-## Building
+next we need to create a component
 
-To build the project run:
+control 
 
-```bash
-ng build
+main .ts —→ index.html—>appcomponent.html
+
+to make control to welcome component 
+
+create a folder under src called components 
+
+run the below command
+
+```tsx
+ng g c components/welcome --no-standalone
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+components/ stands for folder name 
 
-## Running unit tests
+we need to create html page so we create component 
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+and it take lot of time to load  if we create html page
 
-```bash
-ng test
+angular helps create components to make a project faster and dynamic loading
+
+ 
+
+now to change control from index.html which is default to welcome component 
+
+first we go to  app.html 
+
+```tsx
+<router-outlet></router-outlet>//control will go to app routing
 ```
 
-## Running end-to-end tests
+then in app router html
 
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
+```tsx
+const routes: Routes = [{path:"",component:WelcomeComponent}];
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+app routing
 
-## Additional Resources
+```tsx
+  FormsModule,
+    ReactiveFormsModule
+```
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+we create a form of student details
+
+create studentregister component 
+
+in studentregister html
+
+```html
+<p>studentregister works!</p>
+<form #studentRegisterForm="ngForm"  (ngSubmit)="registerStudent()" >    <!--name to form and making it angular form --> 
+
+  StudentName:<input type="text" name="StudentName" [(ngModel)]="student.sName" required> <!--name to input and making it angular form --> <br> <!--required is used to make the field mandatory -->
+  StudentID:<input type="text" name="StudentID" [(ngModel)]="student.studentId" required> <br> <!--name to input and making it angular form -->
+  StudentMarks:<input type="text" name="StudentMarks" [(ngModel)]="student.sMarks" required>
+
+  <input type="submit" value="StudentRegister"> <!--submit button to submit the form -->
+  <input type="reset" value="Reset"> <!--reset button to reset the form -->
+</form>
+```
+
+in student register component  we write  fuctionality in ts  
+
+```tsx
+export class StudentregisterComponent  {
+
+  student=new student();
+
+  registerStudent()
+  {
+    console.log(this.student);
+  }
+}
+
+```
+
+to connect to spring restapi we create a model folder and in model folder we create ts file called student
+
+```tsx
+export class student{
+
+    studentId:number|null;
+    sName:string;
+    sMarks:number;
+
+    constructor()
+    {
+        this.studentId=null;
+        this.sName=""; 
+        this.sMarks=0;
+    }
+}
+
+```
+
+to attach the different component(different page onclick ) in router we mention
+
+```tsx
+const routes: Routes = [{path:"",component:WelcomeComponent},{path:'registerstudenturl',component:StudentregisterComponent}];
+```
+
+to import angular form modules 
+
+```tsx
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule
+  ],
+```
+
+connect component to service 
+
+subscribe  means use the object from spring
