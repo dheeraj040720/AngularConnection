@@ -5,7 +5,7 @@ Angular project creation
 in cmd inside angular project folder 
 
 ```tsx
->ng new angularConnection --no-standalone --routing --ssr=false;
+>ng angularConnection --no-standalone --routing --ssr=false;
 ```
 
 first we need to create a model class in frontend
